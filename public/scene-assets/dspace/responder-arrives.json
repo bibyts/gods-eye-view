@@ -1,0 +1,151 @@
+{
+  "version": 5,
+  "scenes": [
+    {
+      "id": "dspace-responder-arrives",
+      "title": "D-Space: Responder Arrives (fictional demo)",
+      "shots": [
+        {
+          "id": "orbit",
+          "title": "Orbit",
+          "durationSec": 2,
+          "holdSec": 1,
+          "camera": {
+            "lat": 30.30612,
+            "lon": -97.72745,
+            "alt": 9000000,
+            "heading": 0,
+            "pitch": -90,
+            "roll": 0
+          }
+        },
+        {
+          "id": "neighborhood",
+          "title": "The street",
+          "durationSec": 5,
+          "holdSec": 1.5,
+          "camera": {
+            "lat": 30.302078,
+            "lon": -97.72745,
+            "alt": 779,
+            "heading": 0,
+            "pitch": -60,
+            "roll": 0
+          }
+        },
+        {
+          "id": "arrive",
+          "title": "Arrive: 14 Larkspur Court (fictional)",
+          "durationSec": 3,
+          "holdSec": 1.5,
+          "camera": {
+            "lat": 30.305324,
+            "lon": -97.727613,
+            "alt": 107,
+            "heading": 10,
+            "pitch": -50,
+            "roll": 0
+          }
+        },
+        {
+          "id": "pin-larkspur-arrive",
+          "title": "Arrival — This is 14 Larkspur Court. The front door sticks; push hard at the top. The side gate on the left opens from the inside, reach ove",
+          "durationSec": 2,
+          "holdSec": 8,
+          "camera": {
+            "lat": 30.305681,
+            "lon": -97.72745,
+            "alt": 28,
+            "heading": 0,
+            "pitch": -38,
+            "roll": 0
+          }
+        },
+        {
+          "id": "pin-larkspur-gas",
+          "title": "Gas shutoff — The gas meter is on the right side of the house, behind the trash bins. A shutoff wrench hangs on the hook above it.",
+          "durationSec": 2,
+          "holdSec": 8,
+          "camera": {
+            "lat": 30.305895,
+            "lon": -97.727643,
+            "alt": 28,
+            "heading": 50,
+            "pitch": -38,
+            "roll": 0
+          }
+        },
+        {
+          "id": "pin-larkspur-water",
+          "title": "Water shutoff — Water shutoff is in the garage, low on the left wall, a red handle.",
+          "durationSec": 2,
+          "holdSec": 6.2,
+          "camera": {
+            "lat": 30.306135,
+            "lon": -97.727893,
+            "alt": 28,
+            "heading": 100,
+            "pitch": -38,
+            "roll": 0
+          }
+        },
+        {
+          "id": "pin-larkspur-breaker",
+          "title": "Breaker panel — The breaker panel is in the laundry room, behind the door. The main breaker is the big switch at the top.",
+          "durationSec": 2,
+          "holdSec": 8,
+          "camera": {
+            "lat": 30.306416,
+            "lon": -97.727664,
+            "alt": 28,
+            "heading": 150,
+            "pitch": -38,
+            "roll": 0
+          }
+        },
+        {
+          "id": "pin-larkspur-file-of-life",
+          "title": "File of Life — The File of Life is on the refrigerator door, in a red magnetic pocket. It lists medications and an emergency contact.",
+          "durationSec": 2,
+          "holdSec": 8,
+          "camera": {
+            "lat": 30.306449,
+            "lon": -97.727294,
+            "alt": 28,
+            "heading": 200,
+            "pitch": -38,
+            "roll": 0
+          }
+        },
+        {
+          "id": "pin-larkspur-oxygen",
+          "title": "Oxygen in use — Home oxygen is used here. Two spare tanks are in the back bedroom closet. No open flame.",
+          "durationSec": 2,
+          "holdSec": 7.1,
+          "camera": {
+            "lat": 30.306289,
+            "lon": -97.727093,
+            "alt": 28,
+            "heading": 250,
+            "pitch": -38,
+            "roll": 0
+          }
+        },
+        {
+          "id": "pin-larkspur-dog",
+          "title": "Dog in the yard — There is a dog in the back yard. His name is Biscuit. He is friendly but he will try to get out the gate.",
+          "durationSec": 2,
+          "holdSec": 8,
+          "camera": {
+            "lat": 30.306061,
+            "lon": -97.72717,
+            "alt": 28,
+            "heading": 300,
+            "pitch": -38,
+            "roll": 0
+          }
+        }
+      ]
+    }
+  ]
+}

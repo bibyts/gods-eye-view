@@ -28,3 +28,6 @@ pinokio/.installed
 
 # Transient: a release interrupted mid-assembly (npm run changelog recovers it)
 changelog.d/.assembling/
+
+# D-Space local pin store (seeded from src/dspace/demoPins.js on first run).
+.dspace/

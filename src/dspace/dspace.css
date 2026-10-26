@@ -1,0 +1,407 @@
+/* D-Space panel. Uses the app's foundation tokens (src/ui/styles/foundation.css). */
+
+.dspace-root {
+  --ds-bg: var(--glass-bg, rgba(12, 12, 20, 0.86));
+  --ds-border: var(--glass-border, rgba(255, 255, 255, 0.08));
+  --ds-accent: var(--accent, #00d4ff);
+  --ds-text: var(--text-primary, #e8eaed);
+  --ds-muted: var(--text-secondary, rgba(232, 234, 237, 0.55));
+  font-family: var(--font-sans, Inter, sans-serif);
+  color: var(--ds-text);
+}
+
+.dspace-panel {
+  position: fixed;
+  top: 76px;
+  right: 100px;
+  z-index: 1200;
+  width: min(360px, calc(100vw - 32px));
+  max-height: calc(100vh - 240px);
+  display: flex;
+  flex-direction: column;
+  background: rgba(10, 10, 16, 0.9);
+  border: 1px solid var(--ds-border);
+  border-radius: var(--panel-radius, 16px);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.dspace-panel[hidden],
+.dspace-launcher[hidden],
+.dspace-caption[hidden] {
+  display: none;
+}
+
+.dspace-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px 8px;
+}
+
+.dspace-title {
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--ds-accent);
+  font-size: 13px;
+}
+
+.dspace-sub {
+  font-size: 12px;
+  color: var(--ds-muted);
+}
+
+.dspace-icon-btn {
+  background: none;
+  border: 0;
+  color: var(--ds-muted);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dspace-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 0 8px;
+  border-bottom: 1px solid var(--ds-border);
+}
+
+.dspace-tab {
+  flex: 1;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--ds-muted);
+  padding: 8px 2px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dspace-tab.is-active {
+  color: var(--ds-text);
+  border-bottom-color: var(--ds-accent);
+}
+
+.dspace-badge {
+  display: inline-block;
+  margin-left: 4px;
+  min-width: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: #ffb020;
+  color: #0a0a0f;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.dspace-body {
+  padding: 12px 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.dspace-body h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.dspace-body p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.dspace-statusline {
+  padding: 6px 14px 10px;
+  font-family: var(--font-mono, monospace);
+  font-size: 10.5px;
+  color: var(--ds-muted);
+  border-top: 1px solid var(--ds-border);
+}
+
+.dspace-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.dspace-row .dspace-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.dspace-btn,
+.dspace-chip-btn,
+.dspace-launcher {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--ds-border);
+  color: var(--ds-text);
+  border-radius: var(--btn-radius, 10px);
+  padding: 7px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.dspace-btn:hover,
+.dspace-chip-btn:hover {
+  border-color: var(--glass-border-hover, rgba(255, 255, 255, 0.2));
+}
+
+.dspace-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.dspace-btn.primary {
+  background: var(--accent-dim, rgba(0, 212, 255, 0.15));
+  border-color: var(--accent-glow, rgba(0, 212, 255, 0.4));
+  color: var(--ds-accent);
+  font-weight: 600;
+}
+
+.dspace-btn.danger {
+  color: #ff6b6b;
+}
+
+.dspace-btn.wide {
+  width: 100%;
+}
+
+.dspace-chip-btn {
+  padding: 4px 8px;
+  font-size: 11px;
+  border-radius: 12px;
+}
+
+.dspace-launcher {
+  position: fixed;
+  top: 76px;
+  right: 100px;
+  z-index: 1200;
+  font-family: var(--font-mono, monospace);
+  letter-spacing: 0.12em;
+  color: var(--ds-accent);
+  background: rgba(10, 10, 16, 0.9);
+}
+
+.dspace-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--ds-border);
+  border-radius: 8px;
+  color: var(--ds-text);
+  padding: 7px 9px;
+  font: inherit;
+  font-size: 12.5px;
+}
+
+textarea.dspace-input {
+  resize: vertical;
+}
+
+.dspace-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--ds-muted);
+}
+
+.dspace-check {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+}
+
+.dspace-card {
+  border: 1px solid var(--accent-glow, rgba(0, 212, 255, 0.4));
+  background: rgba(0, 212, 255, 0.05);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dspace-card.is-draft {
+  border-style: dashed;
+  border-color: rgba(255, 176, 32, 0.6);
+  background: rgba(255, 176, 32, 0.05);
+}
+
+.dspace-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dspace-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--chip);
+}
+
+.dspace-chip::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--chip);
+}
+
+.dspace-live,
+.dspace-draft {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.dspace-live {
+  color: #7bd88f;
+}
+
+.dspace-draft {
+  color: #ffb020;
+}
+
+.dspace-place {
+  font-size: 11.5px;
+  color: var(--ds-muted);
+}
+
+.dspace-spoken {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.dspace-meta,
+.dspace-hint,
+.dspace-empty {
+  font-size: 11px;
+  color: var(--ds-muted);
+}
+
+.dspace-id {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+}
+
+.dspace-error {
+  color: #ff6b6b;
+  font-size: 12px;
+}
+
+.dspace-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dspace-section-title {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ds-accent);
+  text-transform: uppercase;
+}
+
+.dspace-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dspace-list-btn {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  color: var(--ds-text);
+  text-align: left;
+  padding: 6px 8px;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.dspace-list-btn > span:last-child {
+  flex: 1;
+}
+
+.dspace-list li.is-active .dspace-list-btn,
+.dspace-list-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.dspace-count {
+  flex: 0 0 auto !important;
+  font-family: var(--font-mono, monospace);
+  color: var(--ds-muted);
+}
+
+.dspace-cites {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  margin: 6px 0;
+}
+
+.dspace-thumb {
+  max-width: 100%;
+  max-height: 160px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.dspace-caption {
+  position: fixed;
+  left: 50%;
+  bottom: 64px;
+  transform: translateX(-50%);
+  z-index: 1300;
+  max-width: min(760px, calc(100vw - 32px));
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.82);
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  font-size: 18px;
+  line-height: 1.4;
+  text-align: center;
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .dspace-panel,
+  .dspace-launcher {
+    top: auto;
+    right: 16px;
+    bottom: 16px;
+    max-height: 60vh;
+  }
+  .dspace-caption {
+    bottom: calc(60vh + 32px);
+    font-size: 15px;
+  }
+}

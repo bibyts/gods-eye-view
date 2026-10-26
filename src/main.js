@@ -8,7 +8,9 @@ const application = createStandaloneApplication({
   allowQaRegistration: import.meta.env.DEV,
 });
 
-application.start().catch((error) => {
+const started = application.start();
+
+started.catch((error) => {
   console.error("God's Eye View initialization failed:", error);
   const loaderStatus = document.querySelector('#loading-screen .loader-status');
   loaderStatus.textContent = t('Error: {message}', {
@@ -16,5 +18,13 @@ application.start().catch((error) => {
   });
   loaderStatus.style.color = '#ff4444';
 });
+
+// D-Space (hackathon layer): mounted beside the app once it is running.
+started
+  .then(async (components) => {
+    const { mountDSpace } = await import('./dspace/index.js');
+    mountDSpace({ viewer: components.scene.viewer });
+  })
+  .catch((error) => console.error('D-Space failed to mount:', error));
 
 export { application };

@@ -12,6 +12,7 @@ import {
   panelRuntime,
 } from '../../src/tools/panel.js';
 import { createMcpServer } from '../../src/tools/mcp/index.js';
+import { dspaceTools } from '../../src/dspace/tools.js';
 import { DEFAULT_API_BASE, createLocalToolServices } from './services.js';
 
 const INSTRUCTIONS =
@@ -21,7 +22,8 @@ const INSTRUCTIONS =
   "Answers that can be shown in God's Eye View include data.view; to show one, call " +
   'show_in_gods_eye_view with that view, adding layers, style, a camera or marks as ' +
   "needed. It shows live God's Eye View where the client displays apps and " +
-  'returns a link everywhere.';
+  'returns a link everywhere. D-Space tools (dspace_*) answer what a place ' +
+  'says about itself from person-approved pins only; cite the pin ids they return.';
 
 /** Construct the local MCP server for Core's tools. */
 export function createLocalMcpServer({
@@ -40,7 +42,7 @@ export function createLocalMcpServer({
   return createMcpServer({
     catalog: catalogForSurface(
       composeCatalog({
-        tools: coreTools,
+        tools: [...coreTools, ...dspaceTools],
         services: createLocalToolServices({ apiBase, fetchImpl, panelKey }),
       }),
       'mcp',
