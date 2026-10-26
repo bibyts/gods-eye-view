@@ -9,6 +9,7 @@
  *   POST   /api/dspace/ask               answer from approved pins, with citations
  *   POST   /api/dspace/reset             restore the fictional demo set
  *   GET    /api/dspace/status            whether a Meta model key is configured
+ *   GET    /api/dspace/around?lat=&lon=  live public feeds near a place (not pins)
  *
  * Writes and model calls pass the same same-site gate as the app's other
  * cost-bearing endpoints.
@@ -24,6 +25,7 @@ import {
   groundAnswer,
   offlineDraft,
 } from '../../src/dspace/model.js';
+import { createAroundGatherer } from './around.js';
 import { llamaChat, llamaConfig } from './llama.js';
 import { createPinStore } from './store.js';
 
@@ -69,7 +71,18 @@ export function createDSpaceHandler({
   store = createPinStore({ file: DEFAULT_PIN_FILE }),
   env = process.env,
   fetchImpl = globalThis.fetch,
+  around,
 } = {}) {
+  // The app's own tools, pointed back at this server over loopback on the
+  // port the request arrived at (never at a client-supplied Host).
+  const gatherers = new Map();
+  const gathererFor = (port) => {
+    if (around) return around;
+    const apiBase = `http://127.0.0.1:${Number(port) || 4173}`;
+    if (!gatherers.has(apiBase)) gatherers.set(apiBase, createAroundGatherer({ apiBase }));
+    return gatherers.get(apiBase);
+  };
+
   return async function handle(req, res) {
     const url = new URL(req.url || '/', 'http://local');
     const route = url.pathname.replace(/\/+$/, '') || '/';
@@ -89,6 +102,14 @@ export function createDSpaceHandler({
     try {
       if (method === 'GET' && route === '/status')
         return send(res, 200, { model: llama ? llama.model : null, modelConfigured: Boolean(llama) });
+
+      if (method === 'GET' && route === '/around') {
+        const lat = Number(url.searchParams.get('lat'));
+        const lon = Number(url.searchParams.get('lon'));
+        if (!(Math.abs(lat) <= 90 && Math.abs(lon) <= 180) || url.searchParams.get('lat') === null)
+          return send(res, 400, { error: 'Give lat and lon' });
+        return send(res, 200, await gathererFor(req.socket?.localPort)({ lat, lon }));
+      }
 
       if (method === 'GET' && route === '/pins') return send(res, 200, { pins: await store.list() });
 

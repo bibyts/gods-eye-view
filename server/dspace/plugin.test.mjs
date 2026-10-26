@@ -106,3 +106,37 @@ test('replyText reads both compat and native Llama responses', () => {
   assert.equal(replyText({ completion_message: { content: { type: 'text', text: 'b' } } }), 'b');
   assert.equal(replyText({}), '');
 });
+
+test('around gathers each live feed separately and reports failures honestly', async () => {
+  const { createAroundGatherer, AROUND_SECTIONS } = await import('./around.js');
+  const calls = [];
+  const catalog = {
+    list: () => AROUND_SECTIONS.filter(({ key }) => key !== 'traffic').map(({ tool }) => ({ name: tool })),
+    async call(name, args) {
+      calls.push({ name, args });
+      if (name === 'get_active_fires') throw new Error('Fire detections need a NASA FIRMS key');
+      return { summary: `${name} ok` };
+    },
+  };
+  const gather = createAroundGatherer({ catalog });
+  const result = await gather({ lat: 30.3, lon: -97.7 });
+  const byKey = Object.fromEntries(result.sections.map((section) => [section.key, section]));
+  assert.equal(byKey.weather.summary, 'get_weather ok');
+  assert.deepEqual(calls.find((c) => c.name === 'get_weather').args, { location: { lat: 30.3, lon: -97.7 } });
+  assert.equal(calls.find((c) => c.name === 'get_earthquakes').args.area.radius_km, 150);
+  assert.equal(byKey.fires.unavailable, true);
+  assert.match(byKey.fires.summary, /FIRMS key/);
+  assert.equal(byKey.traffic.unavailable, true, 'a tool missing from the catalog is reported, not skipped');
+  assert.ok(byKey.weather.source && byKey.fires.source);
+});
+
+test('around route validates coordinates and uses the injected gatherer', async () => {
+  const around = async ({ lat, lon }) => ({ lat, lon, sections: [] });
+  await withHandler({ around }, async (handle) => {
+    const ok = await request(handle, 'GET', '/around?lat=30.3&lon=-97.7');
+    assert.equal(ok.status, 200);
+    assert.equal(ok.body.lat, 30.3);
+    assert.equal((await request(handle, 'GET', '/around?lat=95&lon=0')).status, 400);
+    assert.equal((await request(handle, 'GET', '/around')).status, 400);
+  });
+});

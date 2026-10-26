@@ -405,3 +405,45 @@ textarea.dspace-input {
     font-size: 15px;
   }
 }
+
+.dspace-around {
+  border-top: 1px solid var(--ds-border);
+  padding-top: 10px;
+}
+
+.dspace-around-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dspace-feed {
+  border-left: 2px solid rgba(232, 234, 237, 0.25);
+  padding: 2px 0 2px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dspace-feed-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.dspace-feed-label {
+  font-weight: 600;
+}
+
+.dspace-feed-src {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  color: var(--ds-muted);
+}
+
+.dspace-feed-missing summary {
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--ds-muted);
+}

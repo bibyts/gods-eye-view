@@ -66,6 +66,7 @@ export function mountDSpace({ viewer }) {
     touring: false,
     status: { modelConfigured: false, model: null },
     author: null,
+    around: {},
   };
 
   const caption = el('div', { class: 'dspace-caption', role: 'status', 'aria-live': 'polite', hidden: true });
@@ -243,6 +244,7 @@ export function mountDSpace({ viewer }) {
             ),
           )
         : el('p', { class: 'dspace-empty', text: 'No approved pins yet. Add one in “Add pin”.' }),
+      state.place ? aroundSection(state.place) : null,
       el(
         'div',
         { class: 'dspace-section' },
@@ -271,6 +273,54 @@ export function mountDSpace({ viewer }) {
         ),
       ),
     ];
+  }
+
+  async function checkAround(place) {
+    const center = placeCenter(approvedPins(state.pins), place);
+    if (!center) return;
+    state.around[place] = { loading: true };
+    render();
+    try {
+      state.around[place] = await api.around(center);
+    } catch (error) {
+      state.around[place] = { error: error.message };
+    }
+    render();
+  }
+
+  function aroundSection(place) {
+    const live = state.around[place];
+    const reported = live?.sections?.filter((section) => !section.unavailable) || [];
+    const missing = live?.sections?.filter((section) => section.unavailable) || [];
+    return el(
+      'div',
+      { class: 'dspace-section dspace-around' },
+      el(
+        'div',
+        { class: 'dspace-around-head' },
+        el('div', { class: 'dspace-section-title' }, 'Live around this house'),
+        el('button', { class: 'dspace-btn', disabled: live?.loading, onclick: () => checkAround(place) }, live?.loading ? 'Checking…' : live ? '↻ Refresh' : '↻ Check live feeds'),
+      ),
+      el('p', { class: 'dspace-hint', text: 'Live public data, not checked by a person and never read aloud. The house’s own notes are the pins above.' }),
+      live?.error ? el('p', { class: 'dspace-error', text: live.error }) : null,
+      reported.map((section) =>
+        el(
+          'div',
+          { class: 'dspace-feed' },
+          el('div', { class: 'dspace-feed-top' }, el('span', { class: 'dspace-feed-label', text: section.label }), el('span', { class: 'dspace-feed-src', text: section.source })),
+          el('p', { text: section.summary }),
+        ),
+      ),
+      missing.length
+        ? el(
+            'details',
+            { class: 'dspace-feed-missing' },
+            el('summary', { text: `${missing.length} feed${missing.length === 1 ? '' : 's'} unavailable` }),
+            missing.map((section) => el('div', { class: 'dspace-meta', text: `${section.label} (${section.source}): ${section.summary}` })),
+          )
+        : null,
+      live?.retrievedAt ? el('div', { class: 'dspace-meta', text: `Retrieved ${new Date(live.retrievedAt).toLocaleTimeString()}` }) : null,
+    );
   }
 
   function askView() {

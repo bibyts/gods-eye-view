@@ -31,6 +31,7 @@ read from the environment only, never written to a file.
 | `src/dspace/index.js`, `api.js`, `dspace.css` | Panel: Places, Ask, Add pin, Review, About |
 | `src/dspace/tools.js` | MCP tools `dspace_list_pins`, `dspace_ask` |
 | `server/dspace/` | `/api/dspace` API, JSON pin store (`.dspace/pins.json`), Meta Llama client |
+| `server/dspace/around.js` | "Live around this house": upstream's own query tools (weather, fires, perimeters, quakes, cyclones, traffic, cameras) run for a radius around a place |
 | `scripts/dspace/build-responder-scene.mjs` | Builds the Director scene `public/scene-assets/dspace/responder-arrives.json` |
 
 Upstream files touched: `src/main.js` (mount), `server/standalone/vite.config.js`
@@ -44,6 +45,16 @@ Upstream files touched: `src/main.js` (mount), `server/standalone/vite.config.js
 - Drafts never speak, never render as live, and never reach the agent.
 - Model answers are filtered: any sentence without a valid citation to an
   approved, in-scope pin is dropped.
+
+## Live around this house
+
+On the Places tab, **Check live feeds** shows what God's Eye View's public feeds
+report near the selected house. Each line names its source, and feeds that fail
+or need a key are listed as unavailable rather than hidden. Live data is kept
+apart from pins: a person hasn't checked it, it isn't read aloud, and the agent
+doesn't use it to answer questions about the house. Active fires need a NASA
+FIRMS key and traffic needs a TomTom key (see `.env.example`); weather,
+perimeters, earthquakes, cyclones and cameras are keyless.
 
 ## Known gaps
 

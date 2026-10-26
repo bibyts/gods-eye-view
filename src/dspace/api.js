@@ -75,6 +75,11 @@ export function createDSpaceApi() {
       requireOnline();
       return call('/reset', { method: 'POST' });
     },
+    /** Live public feeds near a point. Not pins: never spoken, never checked. */
+    async around({ lat, lon }) {
+      requireOnline();
+      return call(`/around?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}`);
+    },
     async ask(question, { place } = {}) {
       if (offline) return { ...answerFromPins(question, cached, { place }), model: null };
       return call('/ask', { method: 'POST', body: { question, place } });
